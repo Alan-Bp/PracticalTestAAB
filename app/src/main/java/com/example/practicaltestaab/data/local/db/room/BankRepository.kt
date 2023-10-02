@@ -2,7 +2,7 @@ package com.example.practicaltestaab.data.local.db.room
 
 import com.example.practicaltestaab.data.external.web.retrofit.BankService
 import com.example.practicaltestaab.data.local.db.entities.QuoteEntity
-import com.example.practicaltestaab.domain.model.DcBankResponseItem
+import com.example.practicaltestaab.domain.model.BankModel
 import com.example.practicaltestaab.domain.model.Quote
 import com.example.practicaltestaab.domain.model.toDomain
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class BankRepository @Inject constructor(
 
 
     suspend fun getAllQuotesFromApi(): List<Quote> {
-        val response: List<QuoteEntity> = api.getBankQuo()
+        val response: List<BankModel> = api.getBankQuo()
         return response.map { it.toDomain() }
     }
 

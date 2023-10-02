@@ -6,14 +6,14 @@ import com.example.practicaltestaab.domain.model.Quote
 import javax.inject.Inject
 
 class GetBankUseCase @Inject constructor(private val repository: BankRepository) {
-    suspend operator fun invoke():List<Quote>{
+    suspend operator fun invoke(): List<Quote> {
         val quotes = repository.getAllQuotesFromApi()
 //
-        return if(quotes.isNotEmpty()){
+        return if (quotes.isNotEmpty()) {
             repository.clearQuotes()
             repository.insertQuotes(quotes.map { it.toDatabase() })
             quotes
-        }else{
+        } else {
             repository.getAllQuotesFromDatabase()
         }
     }

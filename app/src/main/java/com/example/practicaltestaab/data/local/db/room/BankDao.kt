@@ -1,10 +1,12 @@
 package com.example.practicaltestaab.data.local.db.room
 
 import androidx.room.Dao
+import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.practicaltestaab.data.local.db.entities.QuoteEntity
+import com.example.practicaltestaab.domain.model.Quote
 
 @Dao
 interface BankDao {

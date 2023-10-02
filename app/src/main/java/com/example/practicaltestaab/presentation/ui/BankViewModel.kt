@@ -2,20 +2,18 @@ package com.example.practicaltestaab.presentation.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.practicaltestaab.domain.model.Quote
 import com.example.practicaltestaab.domain.useCases.room.GetBankUseCase
 import com.example.practicaltestaab.domain.useCases.room.GetRandomQuoteUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class BankViewModel @Inject constructor(
     val getQuotesUseCase: GetBankUseCase,
     val getRandomQuoteUseCase: GetRandomQuoteUseCase
-//) : ViewModelProvider.Factory {
 ) : ViewModel() {
 
     val isLoading = MutableLiveData<Boolean>()
@@ -23,7 +21,8 @@ class BankViewModel @Inject constructor(
 
 
     fun onCreate() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
+//        CoroutineScope(Dispatchers.IO).launch {
             isLoading.postValue(true)
             val result = getQuotesUseCase()
 
@@ -35,8 +34,8 @@ class BankViewModel @Inject constructor(
     }
 
     fun randomQuote() {
-//        viewModelScope.launch {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
+//        CoroutineScope(Dispatchers.IO).launch {
             isLoading.postValue(true)
             val quote = getRandomQuoteUseCase()
             quote?.let {

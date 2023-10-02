@@ -1,0 +1,3 @@
+package com.example.practicaltestaab.presentation.mainactivity
+
+interface MainInterface

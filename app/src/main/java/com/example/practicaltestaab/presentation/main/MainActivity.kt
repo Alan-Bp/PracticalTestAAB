@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.room.Room
 import com.example.practicaltestaab.data.local.db.BankDB
+import com.example.practicaltestaab.data.local.db.entities.QuoteEntity
 import com.example.practicaltestaab.data.local.preferences.MyAdapter
 import com.example.practicaltestaab.databinding.ActivityMainBinding
 import com.example.practicaltestaab.domain.model.Quote
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    var resultEntity: List<Quote> = ArrayList()
+    var resultEntity: List<QuoteEntity> = ArrayList()
     var result: ArrayList<Quote> = ArrayList()
     private lateinit var binding: ActivityMainBinding
     var mainPresenter: MainPresenter = MainPresenter()
@@ -28,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val room: BankDB = Room.databaseBuilder(this, BankDB::class.java, "BankDB").build()
         // TODO: Validación primera vez que abre la app llamar a servicio, siguientes llamar a BD 
+        consumoBD()
         principalThread(room)
-
     }
 
     /**
@@ -45,10 +46,8 @@ class MainActivity : AppCompatActivity() {
                 binding.listBanksObject.adapter = adapter
                 binding.loading.isVisible = false
             }
-            // TODO: realizar insercion a base dedatos con respuesta retrofit
-//            room.getBankDao().insertAll(resultEntity)
+            room.getBankDao().insertAll(resultEntity)
         }
-        consumoBD()
     }
 
 

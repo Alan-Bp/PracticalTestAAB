@@ -2,19 +2,18 @@ package com.example.practicaltestaab.presentation.mainactivity
 
 import android.content.Context
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import com.example.practicaltestaab.data.external.web.retrofit.APIService
 import com.example.practicaltestaab.data.external.web.retrofit.RetrofitClient
-import com.example.practicaltestaab.databinding.ActivityMainBinding
+import com.example.practicaltestaab.data.local.db.entities.QuoteEntity
 import com.example.practicaltestaab.domain.model.Quote
 
 
 class MainPresenter {
     var bankInfoList: ArrayList<Quote> = ArrayList()
-    var bankInfoListEntity: ArrayList<Quote> = ArrayList()
+    var bankInfoListEnt: ArrayList<QuoteEntity> = ArrayList()
     var results: ArrayList<Quote> = ArrayList()
+    var resultsEnt: ArrayList<QuoteEntity> = ArrayList()
     private val TAG = "MainPresenter"
 
 
@@ -28,6 +27,7 @@ class MainPresenter {
             Log.d(TAG, call.body().toString())
             //show recycler (TODO)
             ofBanks?.filter {
+
                 bankInfoList.add(
                     Quote(
                         it.bankName,
@@ -37,17 +37,17 @@ class MainPresenter {
                     )
                 )
             }
+
             results = bankInfoList
         } else {
             showError(context)
         }
-//        viewModel.onCreate()
         return results
 
 
     }
 
-    suspend fun showListEntity(context: Context): List<Quote> {
+    suspend fun showListEntity(context: Context): List<QuoteEntity> {
         Log.d(TAG, "showList() called")
         val retro = RetrofitClient()
         val call = retro.getRetrofit().create(APIService::class.java).getCharacters()
@@ -57,19 +57,18 @@ class MainPresenter {
             Log.d(TAG, call.body().toString())
             //show recycler (TODO)
             ofBanks?.filter {
-                bankInfoListEntity.add(
-                    Quote(
-                        bankName = it.bankName, description = it.description, url = it.url,
-                        age = it.age
+                bankInfoListEnt.add(
+                    QuoteEntity(
+                        bankName = it.bankName, description = it.description, age = it.age,
+                        url = it.url
                     )
                 )
             }
-            results = bankInfoListEntity
+            resultsEnt = bankInfoListEnt
         } else {
             showError(context)
         }
-//        viewModel.onCreate()
-        return results
+        return resultsEnt
     }
 
     private fun showError(context: Context) {
